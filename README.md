@@ -14,7 +14,11 @@
    ```sh
    git clone https://github.com/github_username/repo_name.git
    ```
-2. Run the Main class in IntelliJ or download jar to start program.
+2. Open 
+```sh
+   myrah-shah-interview/playable-jar/myrah-shah-interview.jar
+   ```
+   to start the program or run the Main class in IntelliJ
 
 
 <!-- USAGE EXAMPLES -->
