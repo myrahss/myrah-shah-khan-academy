@@ -113,7 +113,7 @@ public class TERenderer {
                     throw new IllegalArgumentException("Tile at position x=" + x + ", y=" + y
                             + " is null.");
                 }
-                if (Math.pow((p.getX() - x), 2) + Math.pow((p.getY() - y), 2) <= Math.pow(SPOTLIGHT_SIZE,2)) {
+                if (Math.pow((p.x() - x), 2) + Math.pow((p.y() - y), 2) <= Math.pow(SPOTLIGHT_SIZE,2)) {
                     world[x][y].draw(x + xOffset, y + yOffset);
                 }
             }

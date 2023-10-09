@@ -20,8 +20,13 @@
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Opening Screen Inputs:
+- N: new game. Enter random seed and press 's' to begin.
+- R: Replay previous game.
+- L: Load previous game.
+- Q: Quit.
 
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+Gameplay:
+- Move using 'WASD' keys on the keyboard and try to get to the yellow door.
+- Press 'c' to create a limited line of sight.
+- Press ":q" to save and exit the game.

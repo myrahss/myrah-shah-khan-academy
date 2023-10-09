@@ -5,6 +5,10 @@ import MazeExplorer.TileEngine.TERenderer;
 /** This is the main entry point for the program.*/
 public class Main {
 
+    /**
+     * Drives game
+     * @param args args to start world state
+     */
     public static void main(String[] args) {
         if (args.length > 2) {
             System.out.println("Can only have two arguments - the flag and input string");

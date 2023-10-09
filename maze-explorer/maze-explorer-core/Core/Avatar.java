@@ -23,7 +23,7 @@ public class Avatar {
     public void movePosition(World world, char c) {
         if (xShift.containsKey(c)) {
             Position newPosition = this.getPosition().shift(xShift.get(c), yShift.get(c));
-            if (!world.outofbounds(newPosition.getX(), newPosition.getY()) && !world.isWall(newPosition)) {
+            if (!world.outofbounds(newPosition.x(), newPosition.y()) && !world.isWall(newPosition)) {
                 this.position = newPosition;
             }
         }

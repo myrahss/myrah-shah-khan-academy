@@ -1,23 +1,17 @@
 package MazeExplorer.Core;
 
-public class Position {
-    private int x;
-    private int y;
+/**
+ * Represents the position of an object
+ */
+public record Position(int x, int y) {
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
+    /**
+     * Shifts the position by specific x amount and y amount.
+     * @param xOff the horizontal shift amount
+     * @param yOff the vertical shift amount
+     * @return new Position with shifted location
+     */
     public Position shift(int xOff, int yOff) {
         return new Position(this.x + xOff, this.y + yOff);
     }
-
-    public int getX() {
-        return this.x;
-    }
-    public int getY() {
-        return this.y;
-    }
-
 }

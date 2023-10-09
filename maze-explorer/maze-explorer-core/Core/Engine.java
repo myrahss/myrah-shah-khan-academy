@@ -16,20 +16,6 @@ import java.nio.file.Files;
  * Handles game-play logic and driver.
  */
 public class Engine {
-    /** Game renderer */
-    TERenderer ter = new TERenderer();
-    /** WIDTH and HEIGHT of the screen */
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
-    /** String of all inputs */
-    private StringBuilder fullInput = new StringBuilder();
-    /** World for gameplay */
-    private World world = null;
-    /** True if limited line of sight enabled, using C character during gameplay */
-    private boolean spotlight = false;
-    /** last time of render */
-    private long lastRenderTime = System.currentTimeMillis();
-
     /**
      * Drives gameplay.
      * Opening screen options:
@@ -39,9 +25,9 @@ public class Engine {
      * Q: Quit game
      *
      * @param inputSource Keyboard input tracker
-     * @param isLive
-     * @param isReplay
-     * @return
+     * @param isLive True if live game
+     * @param isReplay True if replay
+     * @return World after input
      */
     public World interact(InputSource inputSource, boolean isLive, boolean isReplay) {
         //while game is not over
@@ -69,7 +55,7 @@ public class Engine {
 
                 while (game.playing()) {
                     //win game if we reach the door
-                    if (world.getWorldTiles()[world.getPlayer().getPosition().getX()][world.getPlayer().getPosition().getY()]
+                    if (world.getWorldTiles()[world.getPlayer().getPosition().x()][world.getPlayer().getPosition().y()]
                             == Tileset.LOCKED_DOOR) {
                         winGame();
                     }
@@ -110,43 +96,6 @@ public class Engine {
         return this.world;
     }
 
-    private void winGame() {
-        DrawInterface.drawFrame("You won and made it to land!");
-        DrawInterface.pause(1500);
-        System.exit(0);
-    }
-
-    public void interactGeneration(InputSource inputSource, boolean isLive) {
-        if (isLive) {
-            DrawInterface.drawFrame("enter an random seed");
-        }
-        long seed = getSeedfromInput(inputSource, isLive);
-        this.world = new World(seed);  // initial gen world, game playing
-        fullInput.append('N');
-        fullInput.append(seed);
-        fullInput.append('S');
-        world.genWorld();
-    }
-
-    public void interactLoadOrReplay(boolean isLive, boolean isReplay, char c) {
-        File savedGametxt = new File("savedGame.txt");
-        if (!savedGametxt.exists()) {
-            if (isLive) {
-                DrawInterface.drawFrame("No saved game found");
-                DrawInterface.pause(1500);
-            }
-            System.exit(0);
-        } else {
-            String savedInputs = readContentsAsString(savedGametxt);
-            this.world = interactWithInputStringWorld(savedInputs, isLive, isReplay);
-            if (isLive) {
-                this.ter.renderFrame(world.getWorldTiles());
-            }
-            fullInput.append(c);
-        }
-    }
-
-
     /**
      * Method used for exploring a fresh world. This method handles all inputs,
      * including inputs from the main menu.
@@ -170,6 +119,47 @@ public class Engine {
         System.exit(0);
     }
 
+    private void winGame() {
+        DrawInterface.drawFrame("You won and made it to land!");
+        DrawInterface.pause(1500);
+        System.exit(0);
+    }
+
+    private void interactGeneration(InputSource inputSource, boolean isLive) {
+        if (isLive) {
+            DrawInterface.drawFrame("enter an random seed");
+        }
+        long seed = getSeedfromInput(inputSource, isLive);
+        this.world = new World(seed);  // initial gen world, game playing
+        fullInput.append('N');
+        fullInput.append(seed);
+        fullInput.append('S');
+        world.genWorld();
+    }
+
+    private void interactLoadOrReplay(boolean isLive, boolean isReplay, char c) {
+        File savedGametxt = new File("savedGame.txt");
+        if (!savedGametxt.exists()) {
+            if (isLive) {
+                DrawInterface.drawFrame("No saved game found");
+                DrawInterface.pause(1500);
+            }
+            System.exit(0);
+        } else {
+            String savedInputs = readContentsAsString(savedGametxt);
+            this.world = interactWithInputStringWorld(savedInputs, isLive, isReplay);
+            if (isLive) {
+                this.ter.renderFrame(world.getWorldTiles());
+            }
+            fullInput.append(c);
+        }
+    }
+
+    /**
+     * Methods to interact with an input string
+     * @param input string for moves
+     * @return the world state after these moves
+     */
     public TETile[][] interactWithInputString(String input) {
         boolean isLive = false;
         fullInput = new StringBuilder();
@@ -209,7 +199,6 @@ public class Engine {
     }
 
     private Long getSeedfromInput(InputSource inputSource, boolean isLive) {
-
         long seed = 12345678910L;
 
         StringBuilder currSeed = new StringBuilder();
@@ -231,7 +220,9 @@ public class Engine {
     }
 
     /**
-     * Return the entire contents of FILE as a String.
+     * Returns the contents of file as a String
+     * @param file FILE object to deserialize
+     * @return String of deserialized file contents
      */
     private static String readContentsAsString(File file) {
         return new String(readContents(file), StandardCharsets.UTF_8);
@@ -248,6 +239,10 @@ public class Engine {
         }
     }
 
+    /**
+     * Writes contents of String to file to save game state
+     * @param fullInputString All moves on current game.
+     */
     public void saveGame(StringBuilder fullInputString) {
         try {
             FileWriter savedGame = new FileWriter("savedGame.txt");
@@ -257,4 +252,19 @@ public class Engine {
             e.printStackTrace();
         }
     }
+
+    /** Game renderer */
+    TERenderer ter = new TERenderer();
+    /** WIDTH and HEIGHT of the screen */
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
+    /** String of all inputs */
+    private StringBuilder fullInput = new StringBuilder();
+    /** World for gameplay */
+    private World world = null;
+    /** True if limited line of sight enabled, using C character during gameplay */
+    private boolean spotlight = false;
+    /** last time of render */
+    private long lastRenderTime = System.currentTimeMillis();
+
 }
