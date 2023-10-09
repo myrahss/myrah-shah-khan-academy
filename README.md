@@ -12,11 +12,11 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/myrahss/myrah-shah-khan-academy.git
    ```
 2. Open 
 ```sh
-   myrah-shah-interview/playable-jar/myrah-shah-interview.jar
+   myrah-shah-khan-academy/playable-jar/myrah-shah-interview.jar
    ```
    to start the program or run the Main class in IntelliJ
 
