@@ -75,7 +75,7 @@ public class Engine {
                             DrawInterface.pause(400);
                         }
                         //use keyboard input to play game
-                        game.playGame(world, ch);
+                        game.playGame(ch);
                         fullInput.append(ch);
                         world.drawWorld();
                         if (isLive) {
